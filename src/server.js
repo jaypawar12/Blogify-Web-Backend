@@ -12,11 +12,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(morgan('dev'));
 
-app.use('/', require('./routes/index'));
+app.use('/api', require('./routes/index'));
 
 app.listen(PORT, (err) => {
     if (err) {
-        console.log("Server Not Started.....");
+        console.log("Server Not Started.....", err);
         return false;
     }
     console.log(`Server is started at.... https://localhost:${PORT}`);

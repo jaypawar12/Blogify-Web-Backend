@@ -6,7 +6,28 @@ const userSchema = mongoose.Schema({
     password: String,
     gender: String,
     about: String,
-    user_profile: String,
+    profile_image: String,
+    reset_otp: String,
+    reset_otp_expire: {
+        type: Date,
+        default: null
+    },
+    attempt: {
+        type: Number,
+        default: 0,
+    },
+    attempt_expire: {
+        type: Date,
+        default: null
+    },
+    verify_attempt: {
+        type: Number,
+        default: 0,
+    },
+    verify_attempt_expire: {
+        type: Date,
+        default: null
+    },
     create_at: String,
     update_at: String,
     isActive: {
@@ -17,6 +38,6 @@ const userSchema = mongoose.Schema({
         type: Boolean,
         default: false
     }
-});
+})
 
 module.exports = mongoose.model('Users', userSchema, 'Users');

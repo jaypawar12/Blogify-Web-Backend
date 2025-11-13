@@ -14,7 +14,7 @@ module.exports = class UserService {
         }
     }
 
-    // Fetch Single User body = {email : gautam@gmail.cp,}
+    // Fetch Single User body = {email : gautam@gmail.com,}
     async fetchSingleUser(body) {
         try {
             return await User.findOne(body);
@@ -35,9 +35,9 @@ module.exports = class UserService {
     }
 
     // Update User
-    updateUser() {
+    async updateUser(id, body) {
         try {
-
+            return await User.findByIdAndUpdate(id, body, { new: true });
         } catch (error) {
             console.log(error);
             return errorResponse(StatusCodes.INTERNAL_SERVER_ERROR, true, MSG.SERVER_ERROR);

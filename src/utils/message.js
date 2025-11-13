@@ -13,12 +13,15 @@ module.exports.MSG = {
     EMAIL_OTP_SENT_REGISTRATION: "OTP sent to email, verify to complete registration",
     EMAIL_OTP_SENT_LOGIN: "OTP sent to email, verify to complete login",
     PASSWORD_NOT_MATCH: "Password is not Matched",
-    PASSWORD_CHANGED: "Password Changed Success",
+    PASSWORD_CHANGED: "Password Changed Successfully",
     MOBILE_ALREADY_EXISTS: "Mobile number already registered",
     EMAIL_ALREADY_EXISTS: "Email already registered",
+    OTP_SEND: "OTP send successfully",
     OTP_NOT_FOUND: "OTP not found or expired",
     OTP_EXPIRED: "OTP expired",
+    VERIFY_OTP: "OTP verified successfully",
     INVALID_OTP: "Invalid OTP",
+    MANY_TIME_OTP: "Please try agian after 60 minutes",
     LOGOUT_SUCCESS: "Logged out successfully",
 
 
