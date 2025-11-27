@@ -15,4 +15,7 @@ route.post('/forgot_password', forgotPassword);
 route.post('/verify_otp', verifyOTP);
 route.post('/change_password', changePassword);
 
+// 8000/api/auth/register
+// 8000/api/auth/login
+
 module.exports = route;

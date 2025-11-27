@@ -14,97 +14,48 @@ const sendMail = async (to, OTP) => {
         to: to,
         subject: 'Forgot Password',
         html: `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Blogify - OTP Verification</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-</head>
+<div style="font-family: Arial, sans-serif; background:#f4f4f4; padding:25px;">
+  <div style="max-width:480px; margin:auto; background:white; padding:25px; border-radius:10px;
+      box-shadow:0 4px 10px rgba(0,0,0,0.08);">
 
-<body style="margin:0; padding:25px; background:#f0f2f5; font-family:'Inter', sans-serif;">
+    <h2 style="color:#333; text-align:center; margin-bottom:5px;">
+        🔐 Forgot Your Password?
+    </h2>
 
-  <div style="
-      max-width:500px; 
-      margin:auto; 
-      background:#fff; 
-      border-radius:12px;
-      box-shadow:0 4px 20px rgba(0,0,0,0.10);
-      overflow:hidden;
-    ">
+    <p style="color:#555; text-align:center; font-size:14px; margin-top:0;">
+        hey, we received a request to reset your account password.
+    </p>
 
-    <!-- HEADER -->
-    <div style="
-        background:linear-gradient(90deg, #42424a, #1a73e8); 
-        color:#fff; 
-        text-align:center; 
-        padding:30px 20px;
-      ">
-      <h2 style="margin:0; font-size:24px; font-weight:700;">
-        Verify Your Account
-      </h2>
-      <p style="margin:8px 0 0; font-size:14px; opacity:0.9;">
-        Secure OTP Authentication
-      </p>
-    </div>
+    <div style="margin:25px 0; text-align:center;">
+        <p style="font-size:15px; color:#555; margin-bottom:8px;">Your OTP Code is</p>
 
-    <!-- CONTENT -->
-    <div style="padding:30px 25px; color:#333;">
-
-      <p style="font-size:14px; line-height:1.7; margin:0;">
-        Hi,
-      </p>
-
-      <p style="font-size:14px; line-height:1.7; margin-top:12px;">
-        You requested to reset your Blogify account password.  
-        Please use the following One-Time Password (OTP) to verify your identity.
-      </p>
-
-      <!-- OTP BOX -->
-      <div style="
-          background:#f0f0f0;
-          border-left:4px solid #1a73e8;
-          padding:15px 20px;
-          margin:20px 0;
-          font-size:26px;
-          text-align:center;
-          font-weight:700;
-          letter-spacing:6px;
-          color:#1a73e8;
-          border-radius:8px;
+        <div style="
+            display:inline-block;
+            padding:12px 25px;
+            background:#4f46e5;
+            color:white;
+            font-size:28px;
+            letter-spacing:5px;
+            font-weight:bold;
+            border-radius:8px;
         ">
-        ${OTP}
-      </div>
-
-      <p style="font-size:14px; color:#444; line-height:1.7;">
-        This OTP is valid for <strong>2 minutes</strong> and can only be used once.  
-        Please do not share this code with anyone for security reasons.
-      </p>
-
-      <p style="font-size:14px; color:#444; line-height:1.7; margin-top:15px;">
-        If you did not request a password reset, please ignore this email.
-      </p>
-
+            ${OTP}
+        </div>
     </div>
 
-    <!-- FOOTER -->
-    <div style="
-        text-align:center; 
-        padding:20px; 
-        background:#fafafa; 
-        border-top:1px solid #eee;
-        font-size:12px; 
-        color:#777;
-      ">
-      © ${new Date().getFullYear()} Blogify — All Rights Reserved.
-    </div>
+    <p style="font-size:13px; color:#666; line-height:1.5;">
+      This OTP will expire in <b>2 minutes</b>, so pls use it asap. 
+      If you didn’t ask for password reset, just ignore this mail (maybe someone mis-typed).
+    </p>
+
+    <hr style="border:none; height:1px; background:#eee; margin:25px 0;" />
+
+    <p style="font-size:12px; text-align:center; color:#999;">
+      © ${new Date().getFullYear()} Total Coding Academy — All Rights Reserved.
+    </p>
 
   </div>
-
-</body>
-</html>
-
-
+</div>
 `
 
     };

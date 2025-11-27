@@ -10,7 +10,7 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
-        folder: "Blogify-Project",
+        folder: "Blog-Project",
         allowed_formats: ["jpeg", "png", "jpg"]
     },
 });
