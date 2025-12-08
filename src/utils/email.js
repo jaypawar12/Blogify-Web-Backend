@@ -1,19 +1,19 @@
 const nodemailer = require('nodemailer');
 
 const sendMail = async (to, OTP) => {
-    const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: process.env.USER_EMAIL,
-            pass: process.env.USER_PASS
-        }
-    });
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.USER_EMAIL,
+      pass: process.env.USER_PASS
+    }
+  });
 
-    let mailOptions = {
-        from: process.env.USER_EMAIL,
-        to: to,
-        subject: 'Forgot Password',
-        html: `
+  let mailOptions = {
+    from: process.env.USER_EMAIL,
+    to: to,
+    subject: 'Forgot Password',
+    html: `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -103,13 +103,9 @@ const sendMail = async (to, OTP) => {
 
 </body>
 </html>
+`    };
 
-
-`
-
-    };
-
-    await transporter.sendMail(mailOptions);
+  await transporter.sendMail(mailOptions);
 }
 
 module.exports = sendMail;

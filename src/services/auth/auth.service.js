@@ -17,6 +17,7 @@ module.exports = class UserService {
     // Fetch Single User body = {email : gautam@gmail.com,}
     async fetchSingleUser(body) {
         try {
+            
             return await User.findOne(body);
         } catch (error) {
             console.log(error);

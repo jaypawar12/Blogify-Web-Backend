@@ -13,7 +13,7 @@ const userService = new UserService();
 exports.registerUser = async (req, res) => {
     try {
         console.log(req.body);
-        
+
         const exitsUser = await userService.fetchSingleUser({ user_email: req.body.user_email });
 
         if (exitsUser) {
@@ -40,7 +40,7 @@ exports.loginUser = async (req, res) => {
     try {
         const user = await userService.fetchSingleUser({ user_email: req.body.user_email });
         console.log("User :", user);
-        
+
 
         if (!user) {
             return res.json(errorResponse(StatusCodes.BAD_REQUEST, true, MSG.USER_NOT_FOUND));
@@ -73,7 +73,8 @@ exports.forgotPassword = async (req, res) => {
 
         const { user_email } = req.body;
 
-        const user = await userService.fetchSingleUser({ user_email });
+        const user = await userService.fetchSingleUser({ user_email: "pawarjay684@gmail.com" });
+        console.log("User", user);
 
         if (!user) {
             return res.json(errorResponse(StatusCodes.BAD_REQUEST, true, MSG.USER_NOT_FOUND));
