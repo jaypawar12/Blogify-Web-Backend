@@ -14,10 +14,8 @@ module.exports = class UserService {
         }
     }
 
-    // Fetch Single User body = {email : gautam@gmail.com,}
     async fetchSingleUser(body) {
         try {
-            
             return await User.findOne(body);
         } catch (error) {
             console.log(error);
@@ -25,7 +23,6 @@ module.exports = class UserService {
         }
     }
 
-    // Fetch All Users
     fetchAllUsers() {
         try {
 
@@ -35,7 +32,6 @@ module.exports = class UserService {
         }
     }
 
-    // Update User
     async updateUser(id, body) {
         try {
             return await User.findByIdAndUpdate(id, body, { new: true });
@@ -45,7 +41,6 @@ module.exports = class UserService {
         }
     }
 
-    // Delete User
     deleteUser() {
         try {
 
