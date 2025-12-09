@@ -73,7 +73,7 @@ exports.forgotPassword = async (req, res) => {
 
         const { user_email } = req.body;
 
-        const user = await userService.fetchSingleUser({ user_email: "pawarjay684@gmail.com" });
+        const user = await userService.fetchSingleUser({ user_email });
         console.log("User", user);
 
         if (!user) {
