@@ -5,7 +5,7 @@ const User = require('../../models/user.model');
 
 module.exports = class UserService {
     // User Register
-    async registerUser(body) {
+    async registerUser(body, res) {
         try {
             return await User.create(body);
         } catch (error) {
@@ -14,7 +14,7 @@ module.exports = class UserService {
         }
     }
 
-    async fetchSingleUser(body) {
+    async fetchSingleUserForOTP(body) {
         try {
             return await User.findOne(body);
         } catch (error) {
@@ -23,9 +23,18 @@ module.exports = class UserService {
         }
     }
 
-    fetchAllUsers() {
+    async fetchSingleUser(body) {
         try {
+            return await User.findOne(body).select('name email password gender about profile_image');
+        } catch (error) {
+            console.log(error);
+            return errorResponse(StatusCodes.INTERNAL_SERVER_ERROR, true, MSG.SERVER_ERROR);
+        }
+    }
 
+    async fetchAllUsers() {
+        try {
+            return await User.find({ isDelete: false }).select('name email gender about profile_image');
         } catch (error) {
             console.log(error);
             return errorResponse(StatusCodes.INTERNAL_SERVER_ERROR, true, MSG.SERVER_ERROR);

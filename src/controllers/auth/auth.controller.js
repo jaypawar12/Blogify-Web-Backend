@@ -39,7 +39,7 @@ exports.registerUser = async (req, res) => {
 exports.loginUser = async (req, res) => {
     try {
         console.log(req.body);
-        
+
         const user = await userService.fetchSingleUser({ user_email: req.body.user_email });
         console.log("User :", user);
 
