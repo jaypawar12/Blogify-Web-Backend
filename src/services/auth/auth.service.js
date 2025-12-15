@@ -23,9 +23,9 @@ module.exports = class UserService {
         }
     }
 
-    async fetchSingleUser(body) {
+    async fetchSingleUser(body, params) {
         try {
-            return await User.findOne(body).select('name email password gender about profile_image');
+            return await User.findOne(body).select(params);
         } catch (error) {
             console.log(error);
             return errorResponse(StatusCodes.INTERNAL_SERVER_ERROR, true, MSG.SERVER_ERROR);

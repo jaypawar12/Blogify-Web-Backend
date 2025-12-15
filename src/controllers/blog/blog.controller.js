@@ -115,7 +115,6 @@ exports.getSingleBlog = async (req, res) => {
 
 exports.getCurrentUserBlogs = async (req, res) => {
     try {
-        console.log("Hello World");
         console.log(req.user.id);
 
         const allUserBlogs = await blogService.fetchCurrentUserBlogs(req.user.id);

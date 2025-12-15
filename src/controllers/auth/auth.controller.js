@@ -112,6 +112,8 @@ exports.verifyOTP = async (req, res) => {
         const { user_email, OTP } = req.body;
 
         const user = await userService.fetchSingleUser({ user_email });
+        console.log("User", user);
+
 
         if (!user) {
             return res.json(errorResponse(StatusCodes.BAD_REQUEST, true, MSG.USER_NOT_FOUND));
