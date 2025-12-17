@@ -71,7 +71,8 @@ exports.loginUser = async (req, res) => {
 
 exports.forgotPassword = async (req, res) => {
     try {
-        console.log(req.body);
+        console.log("Forgot Password Controller Reached"); // Log entry
+        console.log("Request Body:", req.body);
 
         const { user_email } = req.body;
 
@@ -79,7 +80,13 @@ exports.forgotPassword = async (req, res) => {
         console.log("User", user);
 
         if (!user) {
-            return res.json(errorResponse(StatusCodes.BAD_REQUEST, true, MSG.USER_NOT_FOUND));
+            return res
+                .status(StatusCodes.BAD_REQUEST)
+                .json(errorResponse(
+                    StatusCodes.BAD_REQUEST,
+                    true,
+                    MSG.USER_NOT_FOUND
+                ));
         }
 
         if (user.attempt_expire && user.attempt_expire < Date.now()) {
@@ -87,23 +94,49 @@ exports.forgotPassword = async (req, res) => {
         }
 
         if (user.attempt >= 3) {
-            return res.json(errorResponse(StatusCodes.TOO_MANY_REQUESTS, true, MSG.MANY_TIME_OTP));
+            return res
+                .status(StatusCodes.TOO_MANY_REQUESTS)
+                .json(errorResponse(
+                    StatusCodes.TOO_MANY_REQUESTS,
+                    true,
+                    MSG.MANY_TIME_OTP
+                ));
         }
 
         user.attempt++;
 
         const OTP = Math.floor(100000 + Math.random() * 900000);
         const expireTime = new Date(Date.now() + 2 * 60 * 1000);
-        sendMail(user_email, OTP);
 
-        await userService.updateUser(user._id, { reset_otp: OTP, reset_otp_expire: expireTime, attempt: user.attempt, attempt_expire: new Date(Date.now() + 60 * 60 * 1000) });
+        console.log("Attempting to send email to:", user_email);
+        await sendMail(user_email, OTP);
 
-        return res.json(successResponse(StatusCodes.OK, false, MSG.OTP_SEND));
+        await userService.updateUser(user._id, {
+            reset_otp: OTP,
+            reset_otp_expire: expireTime,
+            attempt: user.attempt,
+            attempt_expire: new Date(Date.now() + 60 * 60 * 1000)
+        });
+
+        return res
+            .status(StatusCodes.OK)
+            .json(successResponse(
+                StatusCodes.OK,
+                false,
+                MSG.OTP_SEND
+            ));
     } catch (err) {
         console.log(err);
-        return res.json(errorResponse(StatusCodes.INTERNAL_SERVER_ERROR, true, MSG.SERVER_ERROR));
+        return res
+            .status(StatusCodes.INTERNAL_SERVER_ERROR)
+            .json(errorResponse(
+                StatusCodes.INTERNAL_SERVER_ERROR,
+                true,
+                MSG.SERVER_ERROR
+            ));
     }
-}
+};
+
 
 exports.verifyOTP = async (req, res) => {
     try {
