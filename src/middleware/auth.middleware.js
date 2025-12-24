@@ -18,7 +18,7 @@ const authMiddleware = async (req, res, next) => {
 
         const decodeData = jwt.verify(token, process.env.JWT_SECRET);
 
-        const user = await userService.fetchSingleUser({ _id: decodeData.id }, 'name email password gender about profile_image');
+        const user = await userService.fetchSingleUser({ _id: decodeData.id }, 'user_name user_email password gender about profile_image');
 
         req.user = user;
 
