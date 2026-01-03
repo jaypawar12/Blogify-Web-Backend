@@ -34,7 +34,7 @@ module.exports = class UserService {
 
     async fetchAllUsers() {
         try {
-            return await User.find({ isDelete: false }).select('name email gender about profile_image');
+            return await User.find({ isDelete: false }).select('user_name user_email gender about profile_image');
         } catch (error) {
             console.log(error);
             return errorResponse(StatusCodes.INTERNAL_SERVER_ERROR, true, MSG.SERVER_ERROR);

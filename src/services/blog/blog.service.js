@@ -15,16 +15,20 @@ module.exports = class BlogService {
 
     async fetchAllBlogs() {
         try {
-            return await Blog.find({}).populate('author', 'name gender profile_image').populate('comment.userId', 'name profile_image');
+            const blogs = await Blog.find({})
+                .populate('author', 'user_name gender profile_image about')
+                .populate('comment.userId', 'user_name profile_image')
+                .exec();
+            return blogs;
         } catch (err) {
-            console.log(err);
+            console.log("Error fetching blogs:", err);
             return errorResponse(StatusCodes.INTERNAL_SERVER_ERROR, true, MSG.SERVER_ERROR);
         }
     }
 
     async updateBlog(id, body) {
         try {
-            return await Blog.findByIdAndUpdate(id, body, { new: true }).populate('author', 'name gender profile_image').populate('comment.userId', 'name profile_image');
+            return await Blog.findByIdAndUpdate(id, body, { new: true }).populate('author', 'user_name gender profile_image').populate('comment.userId', 'user_name profile_image');
         } catch (err) {
             console.log(err);
             return errorResponse(StatusCodes.INTERNAL_SERVER_ERROR, true, MSG.SERVER_ERROR);
@@ -42,7 +46,7 @@ module.exports = class BlogService {
 
     async fetchSingleBlog(body) {
         try {
-            return await Blog.findOne(body).populate('author', 'name gender profile_image').populate('comment.userId', 'name profile_image');
+            return await Blog.findOne(body).populate('author', 'user_name gender profile_image').populate('comment.userId', 'user_name profile_image');
         } catch (err) {
             console.log(err);
             return errorResponse(StatusCodes.INTERNAL_SERVER_ERROR, true, MSG.SERVER_ERROR);
@@ -51,7 +55,7 @@ module.exports = class BlogService {
 
     async fetchCurrentUserBlogs(body) {
         try {
-            return await Blog.find({ author: body }).populate('author', 'name gender profile_image');
+            return await Blog.find({ author: body }).populate('author', 'user_name gender profile_image');
         } catch (err) {
             console.log(err);
             return errorResponse(StatusCodes.INTERNAL_SERVER_ERROR, true, MSG.SERVER_ERROR);

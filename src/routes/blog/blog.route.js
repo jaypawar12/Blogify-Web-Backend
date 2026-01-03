@@ -9,11 +9,10 @@ const upload = multer({ storage });
 
 route.post('/', upload.single('thumbnail'), addBlog);
 route.get('/', getAllBlogs);
+route.get('/current/user/blogs', getCurrentUserBlogs);
 route.put('/:blogId', upload.single('thumbnail'), updateBlog);
 route.delete('/:blogId', deleteBlog);
-
 route.get('/:blogId', getSingleBlog);
-route.get('/current/user/blogs', getCurrentUserBlogs);
 
 route.post('/:blogId/comment', addBlogComment);
 route.get('/:blogId/likes', likeBlog);

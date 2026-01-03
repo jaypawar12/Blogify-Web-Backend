@@ -20,6 +20,10 @@ const authMiddleware = async (req, res, next) => {
 
         const user = await userService.fetchSingleUser({ _id: decodeData.id }, 'user_name user_email password gender about profile_image create_at update_at');
 
+        if (!user) {
+            return res.json(errorResponse(StatusCodes.BAD_REQUEST, true, MSG.USER_NOT_FOUND));
+        }
+
         req.user = user;
 
         next();

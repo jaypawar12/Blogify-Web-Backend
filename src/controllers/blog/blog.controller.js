@@ -12,10 +12,31 @@ exports.addBlog = async (req, res) => {
 
         console.log(req.body);
 
-        req.body.tags = req.body.tags.split(',').map(t => t.trim());
+        if (!req.body.title || !req.body.subtitle || !req.body.content) {
+            return res.json(errorResponse(StatusCodes.BAD_REQUEST, true, MSG.BLOG_CREATION_FAILED));
+        }
+
+        if (!req.file) {
+            return res.json(errorResponse(StatusCodes.BAD_REQUEST, true, MSG.BLOG_CREATION_FAILED));
+        }
+
+        if (req.body.tags) {
+            try {
+                // Try to parse as JSON first (from frontend)
+                if (typeof req.body.tags === 'string' && req.body.tags.startsWith('[')) {
+                    req.body.tags = JSON.parse(req.body.tags);
+                } else {
+                    // Otherwise split by comma
+                    req.body.tags = req.body.tags.split(',').map(t => t.trim()).filter(t => t);
+                }
+            } catch (err) {
+                // If parsing fails, try splitting by comma
+                req.body.tags = req.body.tags.split(',').map(t => t.trim()).filter(t => t);
+            }
+        }
 
         req.body.thumbnail = req.file.path;
-
+        req.body.author = req.user._id;
         req.body.create_at = moment().format('DD/MM/YYYY, h:mm:ss a');
         req.body.update_at = moment().format('DD/MM/YYYY, h:mm:ss a');
 
@@ -117,7 +138,7 @@ exports.getCurrentUserBlogs = async (req, res) => {
     try {
         console.log(req.user.id);
 
-        const allUserBlogs = await blogService.fetchCurrentUserBlogs(req.user.id);
+        const allUserBlogs = await blogService.fetchCurrentUserBlogs(req.user._id);
 
         return res.json(successResponse(StatusCodes.CREATED, false, MSG.BLOGS_FETCH_SUCCESS, allUserBlogs));
     } catch (err) {
@@ -140,8 +161,12 @@ exports.addBlogComment = async (req, res) => {
 
         const blog = await blogService.fetchSingleBlog({ _id: req.params.blogId });
 
+        if (!blog) {
+            return res.json(errorResponse(StatusCodes.BAD_REQUEST, true, MSG.BLOG_NOT_FOUND));
+        }
+
         const comment = {
-            userId: req.user.id,
+            userId: req.user._id,
             msg,
             create_at: moment().format('DD/MM/YYYY, h:mm:ss a'),
         }
@@ -168,10 +193,14 @@ exports.likeBlog = async (req, res) => {
 
         const blog = await blogService.fetchSingleBlog({ _id: req.params.blogId });
 
+        if (!blog) {
+            return res.json(errorResponse(StatusCodes.BAD_REQUEST, true, MSG.BLOG_NOT_FOUND));
+        }
+
         if (req.query.like == 'true') {
             blog.likes++;
         } else {
-            blog.likes--;
+            blog.likes = Math.max(0, blog.likes - 1);
         }
 
         const addedLiked = await blogService.updateBlog(req.params.blogId, { likes: blog.likes });
